@@ -2,7 +2,7 @@
 exports.up = function (knex) {
     return knex.schema.createTable('categorias', (table) => {
         table.increments('categoria_id').primary();
-        table.string('nombre').notNullable();
+        table.string('nombre').notNullable().unique();
         table.string('icono');
     });
 };

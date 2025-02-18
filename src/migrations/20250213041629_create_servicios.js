@@ -4,6 +4,7 @@ exports.up = function (knex) {
         table.increments('servicio_id').primary();
         table.string('nombre').notNullable();
         table.text('descripcion');
+        table.decimal('precio').notNullable();
         table.integer('categoria_id').unsigned().references('categoria_id').inTable('categorias');
     });
 };

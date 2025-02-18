@@ -1,3 +1,4 @@
+// src/migrations/20231010123504_create_ubicaciones.js
 exports.up = function (knex) {
     return knex.schema.createTable('ubicaciones', table => {
         table.increments('ubicacion_id').primary();
