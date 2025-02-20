@@ -7,6 +7,8 @@ exports.up = function (knex) {
         table.string('direccion');
         table.boolean('deleted').defaultTo(false);
         table.integer('radio_servicio_km');
+        table.timestamp('fecha_creacion').defaultTo(knex.fn.now());
+        table.timestamp('fecha_modificacion').defaultTo(knex.fn.now());
     });
 };
 

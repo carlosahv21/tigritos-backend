@@ -14,6 +14,8 @@ exports.up = function (knex) {
         table.boolean('verificado').defaultTo(false);
         table.integer('ubicacion_id').unsigned().references('ubicacion_id').inTable('ubicaciones').nullable();
         table.boolean('deleted').defaultTo(false);
+        table.timestamp('fecha_creacion').defaultTo(knex.fn.now());
+        table.timestamp('fecha_modificacion').defaultTo(knex.fn.now());
     });
 };
 

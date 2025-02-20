@@ -36,11 +36,6 @@ class Categoria {
             await db('categorias').where({ categoria_id: id }).update(validatedData);
             return Categoria.obtenerPorId(id);
         }catch(error){
-            if (error.code === 'ER_DUP_ENTRY') {
-                const errorDuplicado = new Error('El nombre del registroya existe.');
-                errorDuplicado.codigo = 'DUPLICADO';
-                throw errorDuplicado;
-            }
             throw error;
         }
     }
@@ -52,14 +47,17 @@ class Categoria {
     static async crear(datos) {
         try {
             const validatedData = await Categoria.validar(datos);
-            const insert = await db('categorias').insert(validatedData);
-            return Categoria.obtenerPorId(insert[0]);
-        } catch (error) {
-            if (error.code === 'ER_DUP_ENTRY') {
-                const errorDuplicado = new Error('El nombre del registroya existe.');
+
+            const duplicado = await Categoria.validarDuplicado(validatedData.nombre);
+            if (duplicado) {
+                const errorDuplicado = new Error('El nombre de la categoria ya existe.');
                 errorDuplicado.codigo = 'DUPLICADO';
                 throw errorDuplicado;
             }
+
+            const insert = await db('categorias').insert(validatedData);
+            return Categoria.obtenerPorId(insert[0]);
+        } catch (error) {
             throw error;
         }
     }
@@ -79,6 +77,14 @@ class Categoria {
         }
 
         return value;
+    }
+
+    static async validarDuplicado(nombre) {
+        const registro = await db('categorias').where('nombre', nombre).first();
+        if (registro) {
+            return true;
+        }
+        return false;
     }
 }
 

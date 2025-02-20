@@ -7,6 +7,8 @@ exports.up = function (knex) {
         table.text('contenido');
         table.timestamp('fecha').defaultTo(knex.fn.now());
         table.boolean('leida').defaultTo(false).notNullable();
+        table.timestamp('fecha_creacion').defaultTo(knex.fn.now());
+        table.timestamp('fecha_modificacion').defaultTo(knex.fn.now());
     });
 };
 

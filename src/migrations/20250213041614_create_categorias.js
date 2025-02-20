@@ -5,6 +5,8 @@ exports.up = function (knex) {
         table.string('nombre').notNullable();
         table.string('icono');
         table.boolean('deleted').defaultTo(false);
+        table.timestamp('fecha_creacion').defaultTo(knex.fn.now());
+        table.timestamp('fecha_modificacion').defaultTo(knex.fn.now());
     });
 };
 

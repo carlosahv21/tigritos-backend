@@ -35,14 +35,10 @@ class Servicio {
     static async actualizar(id, datos) {
         try {
             const servicio = await Servicio.validar(datos);
+
             await db('servicios').where({ servicio_id: id }).update(servicio);
             return Servicio.obtenerPorId(id);
         } catch (error) {
-            if (error.code === 'ER_DUP_ENTRY') {
-                const errorDuplicado = new Error('El nombre del registroya existe.');
-                errorDuplicado.codigo = 'DUPLICADO';
-                throw errorDuplicado;
-            }
             throw error;
         }
     }
@@ -54,14 +50,17 @@ class Servicio {
     static async crear(datos) {
         try {
             const servicio = await Servicio.validar(datos);
-            const insert = await db('servicios').insert(servicio);
-            return Servicio.obtenerPorId(insert[0]);
-        } catch (error) {
-            if (error.code === 'ER_DUP_ENTRY') {
-                const errorDuplicado = new Error('El nombre del registroya existe.');
+            const duplicado = await Servicio.validarDuplicado(servicio.nombre);
+            
+            if (duplicado) {
+                const errorDuplicado = new Error('El nombre del servicio ya existe.');
                 errorDuplicado.codigo = 'DUPLICADO';
                 throw errorDuplicado;
             }
+
+            const insert = await db('servicios').insert(servicio);
+            return Servicio.obtenerPorId(insert[0]);
+        } catch (error) {
             throw error;
         }
     }
@@ -83,6 +82,14 @@ class Servicio {
         }
 
         return value;
+    }
+
+    static async validarDuplicado(nombre) {
+        const registro = await db('servicios').where('nombre', nombre).first();
+        if (registro) {
+            return true;
+        }
+        return false;
     }
 }
 

@@ -8,6 +8,8 @@ exports.up = function (knex) {
         table.datetime('fecha_fin').notNullable();
         table.decimal('costo', 10, 2).notNullable();
         table.boolean('deleted').defaultTo(false);
+        table.timestamp('fecha_creacion').defaultTo(knex.fn.now());
+        table.timestamp('fecha_modificacion').defaultTo(knex.fn.now());
     });
 };
 

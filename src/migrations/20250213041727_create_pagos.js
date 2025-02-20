@@ -8,6 +8,8 @@ exports.up = function (knex) {
         table.string('estado').defaultTo('pendiente').notNullable();
         table.timestamp('fecha').defaultTo(knex.fn.now());
         table.boolean('deleted').defaultTo(false);
+        table.timestamp('fecha_creacion').defaultTo(knex.fn.now());
+        table.timestamp('fecha_modificacion').defaultTo(knex.fn.now());
     });
 };
 

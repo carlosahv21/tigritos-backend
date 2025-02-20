@@ -10,8 +10,9 @@ exports.up = function (knex) {
         table.datetime('fecha_hora').notNullable();
         table.string('estado').defaultTo('pendiente').notNullable();
         table.decimal('precio_acordado', 10, 2);
-        table.timestamp('fecha_creacion').defaultTo(knex.fn.now());
         table.boolean('deleted').defaultTo(false);
+        table.timestamp('fecha_creacion').defaultTo(knex.fn.now());
+        table.timestamp('fecha_modificacion').defaultTo(knex.fn.now());
     });
 };
 
