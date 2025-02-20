@@ -8,6 +8,7 @@ exports.up = function (knex) {
 		table.integer('puntuacion').notNullable();
 		table.text('comentario');
 		table.timestamp('fecha').defaultTo(knex.fn.now());
+        table.boolean('deleted').defaultTo(false);
 	});
 };
 

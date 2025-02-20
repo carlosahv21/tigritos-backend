@@ -7,6 +7,7 @@ exports.up = function (knex) {
         table.datetime('fecha_inicio').notNullable();
         table.datetime('fecha_fin').notNullable();
         table.decimal('costo', 10, 2).notNullable();
+        table.boolean('deleted').defaultTo(false);
     });
 };
 

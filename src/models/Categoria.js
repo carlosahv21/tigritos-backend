@@ -1,16 +1,14 @@
-const db = require('../db/db'); 
+const db = require('../db/db'); // Importa la instancia de la conexión
 const Joi = require('joi');
 
-class Servicio {
+class Categoria {
     static async obtenerTodos(limit, offset, search, filterField, filterValue) {
-        let query = db('servicios')
-            .select('servicios.*', 'categorias.nombre as nombre_categoria')
-            .join('categorias', 'servicios.categoria_id', 'categorias.categoria_id')
-            .orderBy('servicio_id', 'asc');
+        let query = db('categorias')
+            .select('categorias.*')
+            .orderBy('categoria_id', 'asc');
 
         if (search) {
-            query.where('servicios.nombre', 'like', `%${search}%`)
-                .orWhere('servicios.descripcion', 'like', `%${search}%`);
+            query.where('categorias.nombre', 'like', `%${search}%`);
         }
         if (filterField && filterValue) {
             query.where(filterField, filterValue);
@@ -20,24 +18,24 @@ class Servicio {
     }
 
     static async contarTodos() {
-        return db('servicios').count('* as count').first();
+        return db('categorias').count('* as count').first();
     }
 
     static async obtenerPorId(id) {
-        const servicio = await db('servicios').where({ servicio_id: id }).first();
-        if (servicio) {
-            delete servicio.deleted;
-            return servicio;
+        const categoria = await db('categorias').where({ categoria_id: id }).first();
+        if (categoria) {
+            delete categoria.deleted;
+            return categoria;
         }
         return null;
     }
 
     static async actualizar(id, datos) {
-        try {
-            const servicio = await Servicio.validar(datos);
-            await db('servicios').where({ servicio_id: id }).update(servicio);
-            return Servicio.obtenerPorId(id);
-        } catch (error) {
+        try{
+            const validatedData = await Categoria.validar(datos);
+            await db('categorias').where({ categoria_id: id }).update(validatedData);
+            return Categoria.obtenerPorId(id);
+        }catch(error){
             if (error.code === 'ER_DUP_ENTRY') {
                 const errorDuplicado = new Error('El nombre del registroya existe.');
                 errorDuplicado.codigo = 'DUPLICADO';
@@ -48,14 +46,14 @@ class Servicio {
     }
 
     static async eliminar(id) {
-        return db('servicios').where({ servicio_id: id }).del();
+        return db('categorias').where({ categoria_id: id }).del();
     }
 
     static async crear(datos) {
         try {
-            const servicio = await Servicio.validar(datos);
-            const insert = await db('servicios').insert(servicio);
-            return Servicio.obtenerPorId(insert[0]);
+            const validatedData = await Categoria.validar(datos);
+            const insert = await db('categorias').insert(validatedData);
+            return Categoria.obtenerPorId(insert[0]);
         } catch (error) {
             if (error.code === 'ER_DUP_ENTRY') {
                 const errorDuplicado = new Error('El nombre del registroya existe.');
@@ -66,15 +64,13 @@ class Servicio {
         }
     }
 
-    static async validar(servicio) {
+    static async validar(categoria) {
         const schema = Joi.object({
             nombre: Joi.string().required(),
-            descripcion: Joi.string().allow(null, ''),
-            precio: Joi.number().required(),
-            categoria_id: Joi.number().required(),
+            icono: Joi.string().allow(null, ''),
         });
 
-        const { error, value } = schema.validate(servicio);
+        const { error, value } = schema.validate(categoria);
 
         if (error) {
             const errorValidacion = new Error(error.details[0].message);
@@ -86,4 +82,4 @@ class Servicio {
     }
 }
 
-module.exports = Servicio;
+module.exports = Categoria;

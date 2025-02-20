@@ -7,6 +7,7 @@ exports.up = function (knex) {
         table.string('metodo').notNullable();
         table.string('estado').defaultTo('pendiente').notNullable();
         table.timestamp('fecha').defaultTo(knex.fn.now());
+        table.boolean('deleted').defaultTo(false);
     });
 };
 

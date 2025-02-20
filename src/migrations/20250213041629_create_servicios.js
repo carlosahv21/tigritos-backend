@@ -6,6 +6,7 @@ exports.up = function (knex) {
         table.text('descripcion');
         table.decimal('precio').notNullable();
         table.integer('categoria_id').unsigned().references('categoria_id').inTable('categorias');
+        table.boolean('deleted').defaultTo(false);
     });
 };
 

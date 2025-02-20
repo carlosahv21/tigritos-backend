@@ -8,6 +8,7 @@ const cors = require('cors');
 const usuariosRoutes = require('./src/routes/usuarios');
 const serviciosRoutes = require('./src/routes/servicios');
 const tigritosRoutes = require('./src/routes/tigritos');
+const categoriasRoutes = require('./src/routes/categorias');
 
 // Crear la aplicación Express
 const app = express();
@@ -24,6 +25,7 @@ app.get('/', (req, res) => {
 
 // Rutas
 app.use('/usuarios', usuariosRoutes);
+app.use('/categorias', categoriasRoutes);
 app.use('/servicios', serviciosRoutes);
 app.use('/tigritos', tigritosRoutes);
 

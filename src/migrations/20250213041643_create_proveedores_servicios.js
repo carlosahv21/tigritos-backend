@@ -8,6 +8,7 @@ exports.up = function (knex) {
         table.integer('experiencia_años');
         table.text('descripcion_servicio');
         table.boolean('destacado').defaultTo(false);
+        table.boolean('deleted').defaultTo(false);
     });
 };
 

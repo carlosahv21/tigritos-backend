@@ -5,6 +5,7 @@ exports.up = function (knex) {
         table.decimal('latitud', 9, 6).notNullable();
         table.decimal('longitud', 9, 6).notNullable();
         table.string('direccion');
+        table.boolean('deleted').defaultTo(false);
         table.integer('radio_servicio_km');
     });
 };
