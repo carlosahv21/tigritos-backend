@@ -5,7 +5,7 @@ exports.up = function (knex) {
         table.decimal('latitud', 9, 6).notNullable();
         table.decimal('longitud', 9, 6).notNullable();
         table.string('direccion');
-        table.boolean('deleted').defaultTo(false);
+        table.boolean('borrado').defaultTo(false);
         table.integer('radio_servicio_km');
         table.timestamp('fecha_creacion').defaultTo(knex.fn.now());
         table.timestamp('fecha_modificacion').defaultTo(knex.fn.now());

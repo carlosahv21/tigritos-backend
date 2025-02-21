@@ -9,6 +9,7 @@ const usuariosRoutes = require('./src/routes/usuarios');
 const serviciosRoutes = require('./src/routes/servicios');
 const tigritosRoutes = require('./src/routes/tigritos');
 const categoriasRoutes = require('./src/routes/categorias');
+const authRoutes = require('./src/routes/auth');
 
 // Crear la aplicación Express
 const app = express();
@@ -28,6 +29,7 @@ app.use('/usuarios', usuariosRoutes);
 app.use('/categorias', categoriasRoutes);
 app.use('/servicios', serviciosRoutes);
 app.use('/tigritos', tigritosRoutes);
+app.use('/auth', authRoutes);
 
 // Manejo de errores global
 app.use((err, req, res, next) => {

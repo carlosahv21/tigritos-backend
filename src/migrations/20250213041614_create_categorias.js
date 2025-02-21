@@ -4,7 +4,7 @@ exports.up = function (knex) {
         table.increments('categoria_id').primary();
         table.string('nombre').notNullable();
         table.string('icono');
-        table.boolean('deleted').defaultTo(false);
+        table.boolean('borrado').defaultTo(false);
         table.timestamp('fecha_creacion').defaultTo(knex.fn.now());
         table.timestamp('fecha_modificacion').defaultTo(knex.fn.now());
     });

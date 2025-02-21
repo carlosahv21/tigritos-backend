@@ -1,23 +1,21 @@
 const express = require('express');
 const router = express.Router();
-const usuariosController = require('../controllers/usuariosController'); 
+const usuariosController = require('../controllers/usuariosController');
+const authMiddleware = require('../middlewares/auth');
 
-// Inicio de sesión
-router.post('/login', usuariosController.iniciarSesion);
+// Obtener todos los usuarios
+router.get('/', authMiddleware,usuariosController.obtenerTodos.bind(usuariosController));
 
-// obtener todos los usuarios
-router.get('/', usuariosController.obtenerTodos);
+// Obtener un usuario por ID
+router.get('/:id', authMiddleware, usuariosController.obtenerPorId.bind(usuariosController));
 
-// Recuperación de datos de un usuario
-router.get('/:id', usuariosController.obtenerPorId);
+// Crear un usuario
+router.post('/', authMiddleware, usuariosController.crear.bind(usuariosController));
 
-// Registro de usuario
-router.post('/registro', usuariosController.crear);
+// Actualizar un usuario
+router.put('/:id', authMiddleware, usuariosController.actualizar.bind(usuariosController));
 
-// Eliminación de un usuario
-router.delete('/:id', usuariosController.eliminar);
-
-// Actualización de datos de un usuario
-router.put('/:id', usuariosController.actualizar);
+// Eliminar un usuario
+router.delete('/:id', authMiddleware,usuariosController.eliminar.bind(usuariosController));
 
 module.exports = router;

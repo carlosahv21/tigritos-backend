@@ -73,7 +73,7 @@ class BaseController {
             }
 
             logger.error(`Error al crear ${this.modeloName}: ${error.message}`);
-            res.status(500).json({ message: 'Error al crear registro' });
+            res.status(500).json({ message: 'Error al crear registro', error: error.message });
         }
     }
 
@@ -87,6 +87,10 @@ class BaseController {
                 res.status(404).json({ mensaje: `No se encontró el ${this.modeloName} para actualizar`});
             }
         } catch (error) {
+            if (error.codigo === 'DUPLICADO') {
+                logger.warn(`Error al crear ${this.modeloName}: ${error.message}`);
+                return res.status(409).json({ message: error.message });
+            }
             if (error.codigo === 'VALIDACION') {
                 logger.warning(`Error al actualizar ${this.modeloName}: ${error.message}`);
                 return res.status(400).json({ mensaje: error.message });

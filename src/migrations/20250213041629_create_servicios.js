@@ -8,7 +8,7 @@ exports.up = function (knex) {
         table.integer('categoria_id').unsigned().references('categoria_id').inTable('categorias');
         table.integer('experiencia_años');
         table.boolean('destacado').defaultTo(false);
-        table.boolean('deleted').defaultTo(false);
+        table.boolean('borrado').defaultTo(false);
         table.timestamp('fecha_creacion').defaultTo(knex.fn.now());
         table.timestamp('fecha_modificacion').defaultTo(knex.fn.now());
     });

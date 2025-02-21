@@ -3,7 +3,7 @@ exports.up = function (knex) {
     return knex.schema.createTable('mensajes', (table) => {
         table.increments('mensaje_id').primary();
         table.integer('tigrito_id').unsigned().references('tigrito_id').inTable('tigritos').notNullable();
-        table.integer('remitente_id').unsigned().references('user_id').inTable('usuarios').notNullable();
+        table.integer('remitente_id').unsigned().references('usuario_id').inTable('usuarios').notNullable();
         table.text('contenido').notNullable();
         table.timestamp('fecha').defaultTo(knex.fn.now());
         table.boolean('leido').defaultTo(false);
