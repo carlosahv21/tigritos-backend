@@ -2,7 +2,7 @@ const db = require('../db/db'); // Importa la instancia de la conexión
 const Joi = require('joi');
 
 class Categoria {
-    static async obtenerTodos(limit, offset, search, filterField, filterValue) {
+    static async obtenerTodos(limit = 100, offset = 0, search, filterField, filterValue) {
         let query = db('categorias')
             .select('categorias.*')
             .orderBy('categoria_id', 'asc');
